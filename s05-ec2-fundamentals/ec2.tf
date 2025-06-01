@@ -14,24 +14,9 @@ resource "local_file" "private_key_pem" {
   file_permission = "0400"
 }
 
-data "aws_ami" "amazon_linux_2023" {
-  most_recent = true
-  owners      = ["amazon"]
-
-  filter {
-    name   = "name"
-    values = ["al2023-ami-*-x86_64"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
 resource "aws_instance" "ec2_handson" {
-  instance_type        = "t2.micro"                                        # Set the instance type to a t2.micro instance
-  ami                  = data.aws_ami.amazon_linux_2023.id                 # Use the latest Amazon Linux 2023 AMI
+  instance_type        = "t2.micro" # Set the instance type to a t2.micro instance
+  ami                  = var.amazon_linux_2023_ami_id
   key_name             = aws_key_pair.ec2_key.key_name                     # Use the generated key pair for SSH access
   iam_instance_profile = aws_iam_instance_profile.ec2_handson_profile.name # Use the IAM instance profile for SSM access
 
@@ -48,22 +33,22 @@ resource "aws_instance" "ec2_handson" {
   }
 }
 
-resource "aws_iam_role" "ec2_handson_role" {
-  name = "ec2_handson_role"
+data "aws_iam_policy_document" "ec2_assume_role_policy" {
+  version = "2012-10-17"
+  statement {
+    actions = ["sts:AssumeRole"]
+    effect  = "Allow"
 
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "ec2_handson_role" {
+  name               = "ec2_handson_role"
+  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "ec2_iam_read_only" {

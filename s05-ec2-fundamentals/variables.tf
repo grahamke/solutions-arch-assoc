@@ -13,3 +13,8 @@ variable "common_tags" {
     ManagedBy = "terraform"
   }
 }
+
+variable "amazon_linux_2023_ami_id" {
+  description = "The AMI ID to use for the EC2 instances"
+  default     = "ami-06c8f2ec674c67112"
+}
