@@ -50,7 +50,7 @@ resource aws_vpc_security_group_ingress_rule default_vpc_instance_allow_ssh {
   from_port   = 22
   to_port     = 22
   ip_protocol = "tcp"
-  cidr_ipv4   = var.my_ip_address
+  cidr_ipv4   = var.home_ip_address
 }
 
 resource "aws_vpc_security_group_egress_rule" "default_vpc_instance_allow_all" {

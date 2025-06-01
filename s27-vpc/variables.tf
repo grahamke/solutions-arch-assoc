@@ -23,7 +23,7 @@ variable "amazon_linux_2023_ami_id" {
   default     = "ami-06c8f2ec674c67112"
 }
 
-variable my_ip_address {
+variable home_ip_address {
   description = "Your IP Address. Used for Security Group ingress"
 }
 

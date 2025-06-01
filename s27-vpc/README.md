@@ -2,6 +2,35 @@
 
 This section implements a comprehensive VPC networking setup using Terraform, following the hands-on exercises from Stéphane Maarek's AWS Solutions Architect Associate course, with additional customizations and observations.
 
+## Required Variables
+
+To use this Terraform stack, create a `terraform.tfvars` file with the following variables:
+
+| Variable Name | Description | Example Value          |
+|--------------|-------------|------------------------|
+| `region` | AWS region where resources will be created | `"us-east-1"`          |
+| `profile` | AWS CLI profile to use | `"your-profile-name"`  |
+| `home_ip_address` | Your IP address for security group rules (CIDR notation) | `"x.x.x.x/32"`         |
+| `s3_flow_logs_bucket_name` | Name for the S3 bucket storing VPC flow logs | `"your-vpc-flow-logs"` |
+| `flow_logs_aggregation_interval` | Interval in seconds for VPC flow logs aggregation | `60`                   |
+
+### Example terraform.tfvars
+
+```hcl
+region = "us-east-1"
+profile = "your-profile-name"
+common_tags = {
+  Environment = "Development"
+  Project     = "ProjectName"
+  CostCenter  = "CostCenterName"
+  Owner       = "Your Name"
+  Section     = "VPC"
+}
+home_ip_address = "x.x.x.x/32"
+s3_flow_logs_bucket_name = "XXXXXXXXXXXXXXXXXX"
+flow_logs_aggregation_interval = 60
+```
+
 ## ✅ Resources Implemented
 
 - **VPC**: Created a VPC with a single IPv4 CIDR block.
