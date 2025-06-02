@@ -20,7 +20,6 @@ variable "vpc_name" {
 
 variable "amazon_linux_2023_ami_id" {
   description = "The AMI ID to use for the EC2 instances"
-  default     = "ami-06c8f2ec674c67112"
 }
 
 variable home_ip_address {
