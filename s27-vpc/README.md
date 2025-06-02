@@ -6,13 +6,14 @@ This section implements a comprehensive VPC networking setup using Terraform, fo
 
 To use this Terraform stack, create a `terraform.tfvars` file with the following variables:
 
-| Variable Name | Description | Example Value          |
-|--------------|-------------|------------------------|
-| `region` | AWS region where resources will be created | `"us-east-1"`          |
-| `profile` | AWS CLI profile to use | `"your-profile-name"`  |
+| Variable Name | Description                                              | Example Value          |
+|--------------|----------------------------------------------------------|------------------------|
+| `region` | AWS region where resources will be created               | `"us-east-1"`          |
+| `profile` | AWS CLI profile to use                                   | `"your-profile-name"`  |
+| `amazon_linux_2023_ami_id` | AWS Linux 2023 AMI (find non-minimal for your region)    | `"ami-0953476d60561c955"`  |
 | `home_ip_address` | Your IP address for security group rules (CIDR notation) | `"x.x.x.x/32"`         |
-| `s3_flow_logs_bucket_name` | Name for the S3 bucket storing VPC flow logs | `"your-vpc-flow-logs"` |
-| `flow_logs_aggregation_interval` | Interval in seconds for VPC flow logs aggregation | `60`                   |
+| `s3_flow_logs_bucket_name` | Name for the S3 bucket storing VPC flow logs             | `"your-vpc-flow-logs"` |
+| `flow_logs_aggregation_interval` | Interval in seconds for VPC flow logs aggregation        | `60`                   |
 
 ### Example terraform.tfvars
 
