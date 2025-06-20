@@ -51,6 +51,19 @@ Each directory in this repository is designed to be an **isolated Terraform stac
 
 This isolation ensures that you can work through the course sections independently without affecting other resources.
 
+## 💰 Cost Management with Terraform
+
+Using Terraform for these exercises provides significant advantages for cost control:
+
+- **Complete Resource Tracking**: Terraform maintains a state file that tracks all provisioned resources, ensuring nothing is forgotten
+- **One-Command Cleanup**: Running `terraform destroy` removes all resources defined in the configuration, preventing costly orphaned resources
+- **Resource Visualization**: The `terraform plan` command shows exactly what will be created, modified, or destroyed
+- **Cost Estimation**: Compatible with tools like Infracost to estimate AWS expenses before deployment
+- **Consistent Environments**: Ensures lab environments are identical each time, making cost patterns predictable
+
+This approach significantly reduces the risk of leaving expensive resources running after completing exercises, which is a common issue when manually creating resources in the AWS console.
+
+
 ## 🛠️ Requirements
 
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
