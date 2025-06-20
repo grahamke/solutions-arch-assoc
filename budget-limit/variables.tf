@@ -21,7 +21,3 @@ variable "budget_limit_amount" {
 variable "budget_email_address" {
   description = "The email address to send the budget notifications to"
 }
-
-variable "amazon_linux_2023_ami_id" {
-  description = "The AMI ID to use for the EC2 instances"
-}

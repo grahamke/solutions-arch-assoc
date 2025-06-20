@@ -23,20 +23,33 @@ The goal of this repository is to:
 ```
 .
 ├── README.md
-├── s05-ec2-fundamentals/
-│   ├── main.tf
+├── budget-limit/
+│   ├── budget.tf
 │   ├── variables.tf
-│   ├── outputs.tf
+│   └── ...
+├── s05-ec2-fundamentals/
+│   ├── 01-budget.tf
+│   ├── 02-ec2.tf
 │   └── ...
 ├── s06-ec2-saa/
 │   ├── main.tf
 │   ├── variables.tf
-│   ├── outputs.tf
 │   └── ...
 └── ...
 ```
 
 Each subdirectory represents a hands-on lab or section from the course.
+
+## ⚠️ Important: Isolated Terraform Stacks
+
+Each directory in this repository is designed to be an **isolated Terraform stack** that should be managed independently:
+
+- **Work on one section at a time** - Each section should be planned, applied, and destroyed separately
+- **Resource duplication** - Some resources (like budgets) are intentionally duplicated between sections
+- **Independent state files** - Each directory maintains its own Terraform state
+- **Destroy resources when done** - Remember to run `terraform destroy` in each directory when finished with that section
+
+This isolation ensures that you can work through the course sections independently without affecting other resources.
 
 ## 🛠️ Requirements
 
