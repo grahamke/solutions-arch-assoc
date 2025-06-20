@@ -1,19 +1,19 @@
 # Section 27 – VPC Networking with Terraform
 
-This section implements a comprehensive VPC networking setup using Terraform, following the hands-on exercises from Stéphane Maarek's AWS Solutions Architect Associate course, with additional customizations and observations.
+This section implements a comprehensive VPC networking setup using Terraform, following the hands-on exercises from Stéphane Maarek's AWS Solutions Architect Associate course with additional customizations and observations.
 
 ## Required Variables
 
 To use this Terraform stack, create a `terraform.tfvars` file with the following variables:
 
-| Variable Name | Description                                              | Example Value          |
-|--------------|----------------------------------------------------------|------------------------|
-| `region` | AWS region where resources will be created               | `"us-east-1"`          |
-| `profile` | AWS CLI profile to use                                   | `"your-profile-name"`  |
-| `amazon_linux_2023_ami_id` | AWS Linux 2023 AMI (find non-minimal for your region)    | `"ami-0953476d60561c955"`  |
-| `home_ip_address` | Your IP address for security group rules (CIDR notation) | `"x.x.x.x/32"`         |
-| `s3_flow_logs_bucket_name` | Name for the S3 bucket storing VPC flow logs             | `"your-vpc-flow-logs"` |
-| `flow_logs_aggregation_interval` | Interval in seconds for VPC flow logs aggregation        | `60`                   |
+| Variable Name                    | Description                                              | Example Value             |
+|----------------------------------|----------------------------------------------------------|---------------------------|
+| `region`                         | AWS region where resources will be created               | `"us-east-1"`             |
+| `profile`                        | AWS CLI profile to use                                   | `"your-profile-name"`     |
+| `amazon_linux_2023_ami_id`       | AWS Linux 2023 AMI (find non-minimal for your region)    | `"ami-0953476d60561c955"` |
+| `home_ip_address`                | Your IP address for security group rules (CIDR notation) | `"x.x.x.x/32"`            |
+| `s3_flow_logs_bucket_name`       | Name for the S3 bucket storing VPC flow logs             | `"your-vpc-flow-logs"`    |
+| `flow_logs_aggregation_interval` | Interval in seconds for VPC flow logs aggregation        | `60`                      |
 
 ### Example terraform.tfvars
 
@@ -53,9 +53,9 @@ flow_logs_aggregation_interval = 60
 ## 🧠 Additional Notes
 
 - **Security Groups**:
-  - Noticed that the private EC2 instance's security group lacked an egress rule, which was necessary for outbound internet access. Manually added this rule to ensure functionality.
+  - Noticed that the private EC2 instance's security group lacked an egress rule, which was necessary for outbound internet access. I manually added this rule to ensure functionality.
 - **Athena Workgroup**:
-  - Encountered complications referencing the primary workgroup for Athena. Created a new workgroup to complete exercises via the Athena console.
+  - Encountered complications referencing the primary workgroup for Athena. I created a new workgroup to complete exercises via the Athena console.
 - **CloudWatch Log Group**:
   - Observed that the CloudWatch log group for VPC flow logs was not destroyed during `terraform destroy`. Had to manually import the log group into the Terraform state, possibly due to a race condition.
 - **SSH over IPv6**:

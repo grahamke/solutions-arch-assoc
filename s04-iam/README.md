@@ -54,29 +54,29 @@ This module demonstrates AWS Identity and Access Management (IAM) using Terrafor
 
 ## Required Variables
 
-| Variable Name | Description | Default |
-|---------------|-------------|---------|
-| `region` | AWS region to deploy to | - |
-| `profile` | AWS CLI profile to use | - |
-| `iam_user_name` | Name for the IAM user | "saac03" |
-| `common_tags` | Map of tags to apply to resources | `{ ManagedBy = "terraform" }` |
+| Variable Name   | Description                       | Default                       |
+|-----------------|-----------------------------------|-------------------------------|
+| `region`        | AWS region to deploy to           | -                             |
+| `profile`       | AWS CLI profile to use            | -                             |
+| `iam_user_name` | Name for the IAM user             | "saac03"                      |
+| `common_tags`   | Map of tags to apply to resources | `{ ManagedBy = "terraform" }` |
 
 ## Components
 
 ### 1. IAM User and Group Management (`01-iam.tf`)
-- Creates an IAM user with a secure, auto-generated password
-- Sets up an admin group with AdministratorAccess policy
+- Create an IAM user with a secure, auto-generated password
+- Set up an admin group with AdministratorAccess policy
 
 ### 2. IAM Policies and Groups (`02-iam-policies.tf`)
 - Demonstrates attaching policies directly to users
-- Creates a "Developers" group with specific permissions
+- Create a "Developers" group with specific permissions
 
 ### 3. Password Policy (`03-password-policy.tf`)
 - Implements a strong password policy for the AWS account
 
 ### 4. Multi-Factor Authentication (`04-mfa.tf`)
-- Creates a virtual MFA device for the IAM user
+- Create a virtual MFA device for the IAM user
 
 ### 5. IAM Roles (`05-iam-roles.tf`)
 - Creates an IAM role for EC2 instances
-- Demonstrates trust relationships with assume role policies
+- Demonstrates trust relationships with the AssumeRole policy
