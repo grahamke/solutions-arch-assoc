@@ -63,6 +63,40 @@ Using Terraform for these exercises provides significant advantages for cost con
 
 This approach significantly reduces the risk of leaving expensive resources running after completing exercises, which is a common issue when manually creating resources in the AWS console.
 
+### AWS Budget Alerts
+
+The repository includes a dedicated `budget-limit` directory with a Terraform stack that sets up AWS Budget alerts. This stack can be deployed independently and left running throughout the course to monitor your AWS spending.
+
+**Setup Instructions:**
+
+1. Navigate to the budget-limit directory:
+   ```
+   cd budget-limit
+   ```
+
+2. Configure your budget settings in `terraform.tfvars`:
+   ```
+   region               = "us-east-1"  # Your preferred region
+   profile              = "default"    # Your AWS CLI profile
+   budget_limit_amount  = "10.0"       # Maximum budget in USD
+   budget_email_address = "your.email@example.com"
+   ```
+
+3. Deploy the budget alert:
+   ```
+   terraform init
+   terraform apply
+   ```
+
+4. Leave this budget stack running even when destroying other resources
+
+The budget configuration will:
+- Set a monthly cost budget with your specified limit
+- Send email alerts when you reach 85% and 100% of your budget
+- Send an alert if the forecasted spend will exceed your budget
+
+This helps ensure you don't accidentally incur unexpected AWS charges while working through the course exercises.
+
 
 ## 🛠️ Requirements
 
