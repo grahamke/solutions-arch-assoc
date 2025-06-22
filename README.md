@@ -51,6 +51,24 @@ Each directory in this repository is designed to be an **isolated Terraform stac
 
 This isolation ensures that you can work through the course sections independently without affecting other resources.
 
+## 🔍 "Hidden" Resources Made Explicit
+
+When creating resources through the AWS Console, AWS often creates additional supporting resources automatically for convenience. These "hidden" resources are not always evident to users but are necessary for the primary resources to function correctly.
+
+For example:
+- Creating an Auto Scaling Group in the console automatically creates a service-linked IAM role
+- Setting up a VPC creates default security groups, network ACLs, and route tables
+- Launching an EC2 instance may create default EBS volumes and security groups
+
+In this repository, these "hidden" resources are explicitly defined in the Terraform code. This provides several benefits:
+
+- **Complete transparency** of all resources being created
+- **Better understanding** of AWS service dependencies and relationships
+- **Full control** over all resource configurations
+- **Educational value** in seeing the complete infrastructure requirements
+
+This explicit approach helps develop a deeper understanding of AWS architecture while ensuring no unexpected resources are created.
+
 ## 💰 Cost Management with Terraform
 
 Using Terraform for these exercises provides significant advantages for cost control:
