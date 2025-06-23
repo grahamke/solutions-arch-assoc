@@ -14,9 +14,9 @@ Additional experimentation code may be added.
 
 The goal of this repository is to:
 
-- Practice Infrastructure as Code (IaC) using Terraform
-- Deploy and manage AWS resources in a repeatable way
 - Reinforce concepts covered in the AWS SAA-C03 certification exam
+- Deploy and manage AWS resources in a repeatable way
+- Practice Infrastructure as Code (IaC) using Terraform
 
 ## 📁 Repository Structure
 

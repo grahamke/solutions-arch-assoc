@@ -64,20 +64,21 @@ To test the auto scaling policy:
 
 ## Variables
 
-| Name | Description | Default |
-|------|-------------|---------|
-| `region` | AWS region to deploy resources | - |
-| `profile` | AWS CLI profile to use | - |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023 | - |
-| `common_tags` | Map of common tags to apply to resources | `{ ManagedBy = "terraform" }` |
+| Name                       | Description                              | Default                       |
+|----------------------------|------------------------------------------|-------------------------------|
+| `region`                   | AWS region to deploy resources           | -                             |
+| `profile`                  | AWS CLI profile to use                   | -                             |
+| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023             | -                             |
+| `common_tags`              | Map of common tags to apply to resources | `{ ManagedBy = "terraform" }` |
+| `alb_instances`            | The number of instances in the ALB       | 2                             |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
+| Name          | Description                                               |
+|---------------|-----------------------------------------------------------|
 | `compute_ips` | Public IP addresses of the directly managed EC2 instances |
-| `alb_dns` | DNS name of the Application Load Balancer |
-| `nlb_dns` | DNS name of the Network Load Balancer |
+| `alb_dns`     | DNS name of the Application Load Balancer                 |
+| `nlb_dns`     | DNS name of the Network Load Balancer                     |
 
 ## Usage
 
