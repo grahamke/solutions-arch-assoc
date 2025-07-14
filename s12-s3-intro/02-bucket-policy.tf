@@ -31,5 +31,5 @@ data "aws_iam_policy_document" "public_access_doc" {
 resource "aws_s3_object" "public_coffee" {
   bucket = aws_s3_bucket.bucket_policy_demo.bucket
   key    = "coffee.jpg"
-  source = "coffee.jpg"
+  source = "../resources/coffee.jpg"
 }

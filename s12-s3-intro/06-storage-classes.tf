@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "storage_demo" {
 resource "aws_s3_object" "standard_ia_coffee" {
   bucket        = aws_s3_bucket.storage_demo.bucket
   key           = "coffee.jpg"
-  source        = "coffee.jpg"
+  source        = "../resources/coffee.jpg"
   storage_class = "STANDARD_IA"
 }
 

@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "website_doc" {
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.website.id
   key          = "index.html"
-  source       = "index.html"
+  source       = "../resources/index.html"
   content_type = "text/html"
 }
 
@@ -48,14 +48,14 @@ resource "aws_s3_bucket_website_configuration" "website" {
 resource "aws_s3_object" "website_beach" {
   bucket       = aws_s3_bucket.website.id
   key          = "beach.jpg"
-  source       = "beach.jpg"
+  source       = "../resources/beach.jpg"
   content_type = "image/jpeg"
 }
 
 resource "aws_s3_object" "website_coffee" {
   bucket       = aws_s3_bucket.website.bucket
   key          = "coffee.jpg"
-  source       = "coffee.jpg"
+  source       = "../resources/coffee.jpg"
   content_type = "image/jpeg"
 }
 

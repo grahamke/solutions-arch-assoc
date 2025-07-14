@@ -24,28 +24,28 @@ resource "aws_s3_bucket_versioning" "versioning" {
 resource "aws_s3_object" "versioning_index" {
   bucket       = aws_s3_bucket.versioning.bucket
   key          = "index.html"
-  source       = "index.html"
+  source       = "../resources/index.html"
   content_type = "text/html"
 }
 
 resource "aws_s3_object" "versioning_beach" {
   bucket       = aws_s3_bucket.versioning.bucket
   key          = "beach.jpg"
-  source       = "beach.jpg"
+  source       = "../resources/beach.jpg"
   content_type = "image/jpeg"
 }
 
 resource "aws_s3_object" "versioning_coffee" {
   bucket       = aws_s3_bucket.versioning.bucket
   key          = "coffee.jpg"
-  source       = "coffee.jpg"
+  source       = "../resources/coffee.jpg"
   content_type = "image/jpeg"
 }
 
 resource "aws_s3_object" "overwrite_index" {
   bucket       = aws_s3_bucket_versioning.versioning.bucket
   key          = "index.html"
-  source       = "really_index.html"
+  source       = "../resources/really_index.html"
   content_type = "text/html"
 
   depends_on = [aws_s3_object.index]

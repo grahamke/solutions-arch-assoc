@@ -47,7 +47,7 @@ resource aws_sqs_queue queue {
 resource aws_s3_object coffee {
   bucket = aws_s3_bucket.bucket.id
   key = "coffee.jpg"
-  source = "coffee.jpg"
+  source = "../resources/coffee.jpg"
   etag = filemd5("coffee.jpg")
 
   depends_on = [aws_s3_bucket_notification.demo]

@@ -25,7 +25,7 @@ resource "aws_s3_bucket_versioning" "replica" {
 resource "aws_s3_object" "beach_not_replicated" {
   bucket = aws_s3_bucket.origin.bucket
   key    = "beach.jpg"
-  source = "beach.jpg"
+  source = "../resources/beach.jpg"
 }
 
 resource "aws_s3_bucket_replication_configuration" "demo" {
@@ -121,7 +121,7 @@ resource "aws_iam_policy_attachment" "replication" {
 resource "aws_s3_object" "replicated_coffee" {
   bucket       = aws_s3_bucket.origin.bucket
   key          = "coffee.jpg"
-  source       = "coffee.jpg"
+  source       = "../resources/coffee.jpg"
   content_type = "image/jpeg"
 
   depends_on = [aws_s3_bucket_replication_configuration.demo]
