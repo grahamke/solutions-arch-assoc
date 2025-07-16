@@ -1,6 +1,6 @@
 # 1. You will need to manually set the mfa device up. Name the device: "device-for-${var.iam_user_name}".
 # If the user name is "saac03, then the device name will be "device-for-saac03"
-resource aws_iam_virtual_mfa_device mfa {
+resource "aws_iam_virtual_mfa_device" "mfa" {
   virtual_mfa_device_name = "device-for-${var.iam_user_name}"
 }
 

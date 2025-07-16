@@ -1,5 +1,5 @@
 output "bucket_id" {
-  value = aws_s3_bucket.website.id
+  value       = aws_s3_bucket.website.id
   description = "The ID of the bucket used for the website"
 }
 

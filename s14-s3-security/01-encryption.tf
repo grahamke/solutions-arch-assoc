@@ -29,7 +29,7 @@ resource "aws_s3_object" "coffee" {
   depends_on = [aws_s3_bucket_server_side_encryption_configuration.demo]
 }
 
-data aws_kms_alias s3_kms {
+data "aws_kms_alias" "s3_kms" {
   name = "alias/aws/s3"
 }
 

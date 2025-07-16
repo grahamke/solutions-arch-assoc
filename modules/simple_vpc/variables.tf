@@ -12,3 +12,13 @@ variable "vpc_name" {
   description = "Name of the VPC"
   default     = "simple"
 }
+
+variable "enable_dns_support" {
+  description = "Enables DNS support in this VPC"
+  default     = true
+}
+
+variable "enable_dns_hostnames" {
+  description = "Enables DNS hostnames in this VPC"
+  default     = false
+}

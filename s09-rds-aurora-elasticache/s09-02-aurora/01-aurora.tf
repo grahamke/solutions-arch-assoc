@@ -1,7 +1,7 @@
-resource aws_rds_cluster demo {
+resource "aws_rds_cluster" "demo" {
   cluster_identifier = "database-2"
 
-  engine             = "aurora-mysql"
+  engine         = "aurora-mysql"
   engine_version = var.aurora_mysql_version
 
   master_username = var.mysql_username
@@ -11,9 +11,9 @@ resource aws_rds_cluster demo {
 
   # Use the first 3 AZs (or fewer if less than 3 are available)
   availability_zones = slice(data.aws_availability_zones.available.names, 0,
-    min(3, length(data.aws_availability_zones.available.names)))
+  min(3, length(data.aws_availability_zones.available.names)))
 
-  db_subnet_group_name = aws_db_subnet_group.demo.name
+  db_subnet_group_name   = aws_db_subnet_group.demo.name
   vpc_security_group_ids = [aws_security_group.aurora_sg.id]
 
   database_name = "mydb"
@@ -22,38 +22,38 @@ resource aws_rds_cluster demo {
 
   backup_retention_period = 1
 
-  storage_encrypted  = true
-  kms_key_id = data.aws_kms_key.rds.arn
+  storage_encrypted = true
+  kms_key_id        = data.aws_kms_key.rds.arn
 
   skip_final_snapshot = true
 }
 
-resource aws_rds_cluster_instance primary {
+resource "aws_rds_cluster_instance" "primary" {
   identifier = "database-2-primary"
 
   cluster_identifier = aws_rds_cluster.demo.id
 
-  instance_class  = "db.t3.medium"
-  engine          = aws_rds_cluster.demo.engine
-  engine_version  = aws_rds_cluster.demo.engine_version
+  instance_class = "db.t3.medium"
+  engine         = aws_rds_cluster.demo.engine
+  engine_version = aws_rds_cluster.demo.engine_version
 
-  availability_zone  = data.aws_availability_zones.available.names[0]
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   publicly_accessible = true
 
   db_parameter_group_name = "default.aurora-mysql8.0"
 }
 
-resource aws_rds_cluster_instance reader {
+resource "aws_rds_cluster_instance" "reader" {
   identifier = "database-2-reader"
 
   cluster_identifier = aws_rds_cluster.demo.id
 
-  instance_class  = "db.t3.medium"
-  engine          = aws_rds_cluster.demo.engine
-  engine_version  = aws_rds_cluster.demo.engine_version
+  instance_class = "db.t3.medium"
+  engine         = aws_rds_cluster.demo.engine
+  engine_version = aws_rds_cluster.demo.engine_version
 
-  availability_zone  = data.aws_availability_zones.available.names[1]
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   publicly_accessible = true
 
@@ -94,7 +94,7 @@ locals {
   # Get the first subnet from each AZ
   selected_subnet_ids = [
     for az in slice(data.aws_availability_zones.available.names, 0,
-      min(3, length(data.aws_availability_zones.available.names))) :
+    min(3, length(data.aws_availability_zones.available.names))) :
     try(local.subnets_by_az[az][0], null)
   ]
 }
@@ -118,7 +118,7 @@ resource "aws_vpc_security_group_ingress_rule" "aurora_mysql" {
   cidr_ipv4         = "${var.personal_ip_address}/32"
 }
 
-data aws_kms_key rds {
+data "aws_kms_key" "rds" {
   key_id = "alias/aws/rds"
 }
 
@@ -140,7 +140,7 @@ output "aurora_cluster_instances" {
   }
 }
 
-resource aws_rds_cluster_endpoint static {
+resource "aws_rds_cluster_endpoint" "static" {
   cluster_identifier          = aws_rds_cluster.demo.id
   cluster_endpoint_identifier = "static"
   custom_endpoint_type        = "READER" # READER or ANY

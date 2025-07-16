@@ -1,4 +1,4 @@
-resource aws_s3_bucket access_logs {
+resource "aws_s3_bucket" "access_logs" {
   bucket = var.access_logs_bucket_name
 }
 
@@ -13,10 +13,10 @@ data "aws_iam_policy_document" "demo_write_access_logs_policy" {
   statement {
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["logging.s3.amazonaws.com"]
     }
-    actions = ["s3:PutObject"]
+    actions   = ["s3:PutObject"]
     resources = ["${aws_s3_bucket.access_logs.arn}/*"]
   }
 }

@@ -1,15 +1,15 @@
-resource aws_elasticache_cluster demo {
+resource "aws_elasticache_cluster" "demo" {
   cluster_id           = "cluster-example"
   engine               = "redis"
   node_type            = "cache.t2.micro"
-  num_cache_nodes      = 1  # no replicas
+  num_cache_nodes      = 1 # no replicas
   parameter_group_name = "default.redis7"
   engine_version       = "7.1"
   port                 = 6379
   subnet_group_name    = aws_elasticache_subnet_group.bar.name
   security_group_ids   = [aws_security_group.nondefault.id]
 
-  az_mode = "single-az" # disables Multi-AZ
+  az_mode                      = "single-az" # disables Multi-AZ
   preferred_availability_zones = [data.aws_availability_zones.available.names[0]]
 }
 

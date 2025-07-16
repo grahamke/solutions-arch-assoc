@@ -27,8 +27,8 @@ output "eip_ip_address" {
   value = aws_eip.demo_eip.public_ip
 }
 
-resource aws_route "nat_route" {
-  route_table_id = aws_route_table.private_rt.id
+resource "aws_route" "nat_route" {
+  route_table_id         = aws_route_table.private_rt.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id = aws_nat_gateway.demo_nat_gw.id
+  nat_gateway_id         = aws_nat_gateway.demo_nat_gw.id
 }

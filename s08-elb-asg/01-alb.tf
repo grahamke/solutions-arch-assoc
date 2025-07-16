@@ -1,7 +1,7 @@
-resource aws_instance compute {
-  count = var.alb_instances
-  ami = var.amazon_linux_2023_ami_id
-  instance_type = "t2.micro"
+resource "aws_instance" "compute" {
+  count                       = var.alb_instances
+  ami                         = var.amazon_linux_2023_ami_id
+  instance_type               = "t2.micro"
   associate_public_ip_address = true
 
   user_data = <<-EOF
@@ -26,25 +26,25 @@ EOF
   }
 }
 
-output compute_ips {
+output "compute_ips" {
   value = aws_instance.compute.*.public_ip
 }
 
 # To use the direct public IPs of the instances, use this security group
-module launch_sg {
+module "launch_sg" {
   source = "../modules/default_vpc_sg"
 }
 
-resource aws_lb alb {
-  name = "DemoALB"
-  internal = false
+resource "aws_lb" "alb" {
+  name               = "DemoALB"
+  internal           = false
   load_balancer_type = "application"
-  ip_address_type = "ipv4"
-  subnets = data.aws_subnets.default.ids
-  security_groups = [aws_security_group.alb_sg.id]
+  ip_address_type    = "ipv4"
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.alb_sg.id]
 }
 
-output alb_dns {
+output "alb_dns" {
   value = aws_lb.alb.dns_name
 }
 
@@ -59,33 +59,33 @@ data "aws_subnets" "default" {
   }
 }
 
-resource aws_security_group alb_sg {
-  name = "demo-sg-load-balancer"
+resource "aws_security_group" "alb_sg" {
+  name        = "demo-sg-load-balancer"
   description = "Allow HTTP into ALB"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.default.id
 }
 
-resource aws_vpc_security_group_ingress_rule allow_http {
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   security_group_id = aws_security_group.alb_sg.id
-  from_port = 80
-  to_port = 80
-  ip_protocol = "tcp"
-  cidr_ipv4 = "0.0.0.0/0"
+  from_port         = 80
+  to_port           = 80
+  ip_protocol       = "tcp"
+  cidr_ipv4         = "0.0.0.0/0"
 }
 
-resource aws_vpc_security_group_egress_rule allow_all_out {
+resource "aws_vpc_security_group_egress_rule" "allow_all_out" {
   security_group_id = aws_security_group.alb_sg.id
-  ip_protocol = "-1"
-  to_port = -1
-  from_port = -1
-  cidr_ipv4 = "0.0.0.0/0"
+  ip_protocol       = "-1"
+  to_port           = -1
+  from_port         = -1
+  cidr_ipv4         = "0.0.0.0/0"
 }
 
-resource aws_lb_target_group tg {
-  name = "demo-tg-alb"
-  vpc_id = data.aws_vpc.default.id
-  port = 80
-  protocol = "HTTP"
+resource "aws_lb_target_group" "tg" {
+  name             = "demo-tg-alb"
+  vpc_id           = data.aws_vpc.default.id
+  port             = 80
+  protocol         = "HTTP"
   protocol_version = "HTTP1"
 
   deregistration_delay = 30
@@ -95,73 +95,73 @@ resource aws_lb_target_group tg {
   load_balancing_cross_zone_enabled = "use_load_balancer_configuration"
 
   health_check {
-    enabled = true
-    protocol = "HTTP"
-    port = "traffic-port"
-    path = "/"
-    matcher = "200-299"
-    timeout = 5
-    interval = 10
-    healthy_threshold = 2
+    enabled             = true
+    protocol            = "HTTP"
+    port                = "traffic-port"
+    path                = "/"
+    matcher             = "200-299"
+    timeout             = 5
+    interval            = 10
+    healthy_threshold   = 2
     unhealthy_threshold = 2
   }
 
   # enable to see stickiness in action
   stickiness {
-    enabled = false
-    type = "lb_cookie"
+    enabled         = false
+    type            = "lb_cookie"
     cookie_duration = 86400 # one day
   }
 }
 
-resource aws_lb_target_group_attachment tg_attachment {
-  count = length(aws_instance.compute)
+resource "aws_lb_target_group_attachment" "tg_attachment" {
+  count            = length(aws_instance.compute)
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id = aws_instance.compute[count.index].id
-  port = 80
+  target_id        = aws_instance.compute[count.index].id
+  port             = 80
 }
 
-resource aws_lb_listener http {
+resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.alb.arn
-  port = 80
-  protocol = "HTTP"
+  port              = 80
+  protocol          = "HTTP"
 
   default_action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_lb_target_group.tg.arn
   }
 }
 
-resource aws_security_group ec2_sg {
-  name = "demo-sg-ec2"
+resource "aws_security_group" "ec2_sg" {
+  name        = "demo-sg-ec2"
   description = "Allow HTTP from ALB"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.default.id
 }
 
-resource aws_vpc_security_group_ingress_rule allow_http_from_alb {
-  security_group_id = aws_security_group.ec2_sg.id
-  from_port = 80
-  to_port = 80
-  ip_protocol = "tcp"
+resource "aws_vpc_security_group_ingress_rule" "allow_http_from_alb" {
+  security_group_id            = aws_security_group.ec2_sg.id
+  from_port                    = 80
+  to_port                      = 80
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.alb_sg.id
 }
 
-resource aws_vpc_security_group_egress_rule allow_all_out_from_instance {
+resource "aws_vpc_security_group_egress_rule" "allow_all_out_from_instance" {
   security_group_id = aws_security_group.ec2_sg.id
-  ip_protocol = "-1"
-  to_port = -1
-  from_port = -1
-  cidr_ipv4 = "0.0.0.0/0"
+  ip_protocol       = "-1"
+  to_port           = -1
+  from_port         = -1
+  cidr_ipv4         = "0.0.0.0/0"
 }
 
-resource aws_lb_listener_rule error_rule {
+resource "aws_lb_listener_rule" "error_rule" {
   listener_arn = aws_lb_listener.http.arn
-  priority = 5
+  priority     = 5
   action {
     type = "fixed-response"
     fixed_response {
       content_type = "text/plain"
-      status_code = "404"
+      status_code  = "404"
       message_body = "Not Found, custom error!"
     }
   }

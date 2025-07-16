@@ -60,14 +60,14 @@ resource "aws_vpc_security_group_ingress_rule" "rds_sg_ingress_3306" {
   cidr_ipv4         = "${var.personal_ip_address}/32"
 }
 
-output mysql_hostname {
+output "mysql_hostname" {
   value = aws_db_instance.demo.address
 }
 
-output mysql_port {
+output "mysql_port" {
   value = aws_db_instance.demo.port
 }
 
-output mysql_username {
+output "mysql_username" {
   value = aws_db_instance.demo.username
 }

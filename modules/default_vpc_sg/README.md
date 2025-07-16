@@ -1,6 +1,6 @@
 # Default VPC Security Group Module
 
-This module creates a security group in the default VPC with common access rules for EC2 instances.
+This module creates a security group in the default VPC of your provider with simple access rules for EC2 instances.
 
 ## Features
 

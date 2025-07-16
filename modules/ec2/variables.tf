@@ -9,7 +9,7 @@ variable "ami" {
 }
 
 variable "key_name" {
-  type = string
+  type    = string
   default = null
 }
 

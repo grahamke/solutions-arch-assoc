@@ -10,7 +10,7 @@ module "eu_central_ec2" {
   public_ip = true
 
   vpc_security_group_ids = [module.eu_central_sg.sg_id]
-  subnet_id              = module.eu_central_vpc.subnet_ids[0]
+  subnet_id              = module.eu_central_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
 }
@@ -58,7 +58,7 @@ module "us-east_ec2" {
   public_ip = true
 
   vpc_security_group_ids = [module.us-east_sg.sg_id]
-  subnet_id              = module.us-east_vpc.subnet_ids[0]
+  subnet_id              = module.us-east_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
 }
@@ -106,7 +106,7 @@ module "ap-southeast_ec2" {
   public_ip = true
 
   vpc_security_group_ids = [module.ap-southeast_sg.sg_id]
-  subnet_id              = module.ap-southeast_vpc.subnet_ids[0]
+  subnet_id              = module.ap-southeast_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
 }
@@ -168,7 +168,7 @@ resource "aws_lb" "alb" {
   internal           = false
   load_balancer_type = "application"
   ip_address_type    = "ipv4"
-  subnets            = module.eu_central_vpc.subnet_ids
+  subnets            = module.eu_central_vpc.public_subnet_ids
   security_groups    = [aws_security_group.alb_sg.id]
 }
 

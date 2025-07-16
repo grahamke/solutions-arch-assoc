@@ -48,7 +48,7 @@ resource "aws_route" "public_igw" {
   gateway_id             = aws_internet_gateway.demo_igw.id
 }
 
-resource aws_route public_igw_ipv6 {
+resource "aws_route" "public_igw_ipv6" {
   route_table_id              = aws_route_table.public_rt.id
   destination_ipv6_cidr_block = "::/0"
   gateway_id                  = aws_internet_gateway.demo_igw.id

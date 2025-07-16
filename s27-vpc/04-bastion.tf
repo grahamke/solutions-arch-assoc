@@ -90,20 +90,20 @@ resource "aws_vpc_security_group_ingress_rule" "bastion_allow_ipv6_ssh" {
 # Rule for IPv4 outbound
 resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_ipv4" {
   security_group_id = aws_security_group.bastion_sg.id
-  ip_protocol = "-1"
-  from_port   = -1
-  to_port     = -1
-  cidr_ipv4   = "0.0.0.0/0"
+  ip_protocol       = "-1"
+  from_port         = -1
+  to_port           = -1
+  cidr_ipv4         = "0.0.0.0/0"
 }
 
 # add for IPv6
 # Separate rule for IPv6 outbound
 resource "aws_vpc_security_group_egress_rule" "allow_all_outbound_ipv6" {
   security_group_id = aws_security_group.bastion_sg.id
-  ip_protocol = "-1"
-  from_port   = -1
-  to_port     = -1
-  cidr_ipv6   = "::/0"
+  ip_protocol       = "-1"
+  from_port         = -1
+  to_port           = -1
+  cidr_ipv6         = "::/0"
 }
 
 ##################################################
@@ -126,10 +126,10 @@ resource "local_file" "private_key_pem" {
 }
 
 resource "aws_instance" "private_host" {
-  instance_type               = "t2.micro"
-  ami                         = var.amazon_linux_2023_ami_id
-  subnet_id                   = aws_subnet.private_a.id
-  key_name                    = aws_key_pair.private_ec2_key.key_name
+  instance_type = "t2.micro"
+  ami           = var.amazon_linux_2023_ami_id
+  subnet_id     = aws_subnet.private_a.id
+  key_name      = aws_key_pair.private_ec2_key.key_name
 
   vpc_security_group_ids = [
     aws_security_group.private_sg.id
@@ -148,7 +148,7 @@ resource "aws_instance" "private_host" {
   iam_instance_profile = aws_iam_instance_profile.demo_ec2_s3_read_only_instance_profile.name
 }
 
-output aws_instance_private_host_private_ip {
+output "aws_instance_private_host_private_ip" {
   value = aws_instance.private_host.private_ip
 }
 

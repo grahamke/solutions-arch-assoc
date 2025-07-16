@@ -19,5 +19,5 @@ variable "amazon_linux_2023_ami_id" {
 
 variable "alb_instances" {
   description = "The number of instances to run in the ALB ASG"
-  default = 2
+  default     = 2
 }

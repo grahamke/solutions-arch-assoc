@@ -61,7 +61,7 @@ resource "aws_vpc_security_group_ingress_rule" "efs_in" {
   referenced_security_group_id = module.default_vpc_sg.sg_id
 }
 
-resource aws_vpc_security_group_egress_rule "ec2_out_to_efs" {
+resource "aws_vpc_security_group_egress_rule" "ec2_out_to_efs" {
   security_group_id            = module.default_vpc_sg.sg_id
   from_port                    = 2049
   to_port                      = 2049
@@ -109,7 +109,7 @@ resource "aws_instance" "instance_a" {
   }
 }
 
-output instance_a_public_ip {
+output "instance_a_public_ip" {
   value = aws_instance.instance_a.public_ip
 }
 
@@ -145,7 +145,7 @@ resource "aws_instance" "instance_b" {
   }
 }
 
-output instance_b_public_ip {
+output "instance_b_public_ip" {
   value = aws_instance.instance_b.public_ip
 }
 

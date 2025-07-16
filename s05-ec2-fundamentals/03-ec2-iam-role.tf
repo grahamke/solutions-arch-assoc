@@ -1,16 +1,16 @@
 # This is copied from the earlier s04-iam.
-resource aws_iam_role demo_role_for_ec2 {
-  name = "DemoRoleForEC2"
+resource "aws_iam_role" "demo_role_for_ec2" {
+  name               = "DemoRoleForEC2"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy_doc.json
 }
 
-data aws_iam_policy_document assume_role_policy_doc {
+data "aws_iam_policy_document" "assume_role_policy_doc" {
   version = "2012-10-17"
   statement {
-    effect = "Allow"
+    effect  = "Allow"
     actions = ["sts:AssumeRole"]
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
   }
@@ -29,7 +29,7 @@ data aws_iam_policy_document assume_role_policy_doc {
 #   policy_arn = data.aws_iam_policy.iam_read_only_policy.arn
 # }
 
-data aws_iam_policy iam_read_only_policy {
+data "aws_iam_policy" "iam_read_only_policy" {
   arn = "arn:aws:iam::aws:policy/IAMReadOnlyAccess"
 }
 

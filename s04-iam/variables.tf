@@ -14,6 +14,6 @@ variable "common_tags" {
 }
 
 variable "iam_user_name" {
-  type = string
+  type        = string
   description = "The name of the IAM user to create"
 }

@@ -1,8 +1,8 @@
-resource aws_autoscaling_group demo {
+resource "aws_autoscaling_group" "demo" {
   name = "DemoASG"
 
   launch_template {
-    id = aws_launch_template.demo.id
+    id      = aws_launch_template.demo.id
     version = aws_launch_template.demo.latest_version
   }
 
@@ -24,12 +24,12 @@ resource aws_autoscaling_group demo {
   # depends_on = [aws_iam_service_linked_role.autoscaling]
 }
 
-resource aws_launch_template demo {
-  name = "MyDemoTemplate"
-  description = "Template"
-  image_id = var.amazon_linux_2023_ami_id
-  instance_type = "t2.micro"
-  key_name = module.ec2_key_pair.key_name
+resource "aws_launch_template" "demo" {
+  name                   = "MyDemoTemplate"
+  description            = "Template"
+  image_id               = var.amazon_linux_2023_ami_id
+  instance_type          = "t2.micro"
+  key_name               = module.ec2_key_pair.key_name
   vpc_security_group_ids = [module.launch_sg.sg_id]
 
   user_data = base64encode(<<-EOF
@@ -48,8 +48,8 @@ EOF
 module "ec2_key_pair" {
   source = "../modules/key_pair"
 
-  key_name        = "generated_key"
-  filename        = "${path.module}/generated_key.pem"
+  key_name = "generated_key"
+  filename = "${path.module}/generated_key.pem"
   tags = {
     Name = "EC2 Key Pair"
   }
@@ -63,10 +63,10 @@ module "ec2_key_pair" {
 #   description      = "Service-linked role for Auto Scaling"
 # }
 
-resource aws_autoscaling_policy target_tracking_policy {
-  name = "DemoTargetTrackingPolicy"
+resource "aws_autoscaling_policy" "target_tracking_policy" {
+  name                   = "DemoTargetTrackingPolicy"
   autoscaling_group_name = aws_autoscaling_group.demo.name
-  policy_type = "TargetTrackingScaling"
+  policy_type            = "TargetTrackingScaling"
 
   target_tracking_configuration {
     predefined_metric_specification {

@@ -82,7 +82,7 @@ resource "aws_iam_role" "vpc_flow_logs_cw_role" {
   assume_role_policy = data.aws_iam_policy_document.vpc_flow_logs_assume_role_policy_document.json
 }
 
-resource aws_iam_role_policy_attachment "vpc_flow_logs_cw_role_policy_attachment" {
+resource "aws_iam_role_policy_attachment" "vpc_flow_logs_cw_role_policy_attachment" {
   role       = aws_iam_role.vpc_flow_logs_cw_role.id
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchFullAccess"
 }

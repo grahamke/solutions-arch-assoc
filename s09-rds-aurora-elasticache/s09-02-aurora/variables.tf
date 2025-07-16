@@ -32,7 +32,7 @@ variable "mysql_password" {
   type        = string
 }
 
-variable personal_ip_address {
+variable "personal_ip_address" {
   description = "Your personal IP address"
   type        = string
 }

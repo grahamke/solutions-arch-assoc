@@ -54,7 +54,7 @@ resource "aws_route53_record" "weighted_demo3" {
 ##################################
 # Latency Based Routing
 ##################################
-resource aws_route53_record latency_demo1 {
+resource "aws_route53_record" "latency_demo1" {
   zone_id = data.aws_route53_zone.demo.zone_id
   name    = "latency.${var.domain_name}"
   type    = "A"
@@ -67,7 +67,7 @@ resource aws_route53_record latency_demo1 {
   records = [module.ap-southeast_ec2.public_ip]
 }
 
-resource aws_route53_record latency_demo2 {
+resource "aws_route53_record" "latency_demo2" {
   zone_id = data.aws_route53_zone.demo.zone_id
   name    = "latency.${var.domain_name}"
   type    = "A"
@@ -80,7 +80,7 @@ resource aws_route53_record latency_demo2 {
   records = [module.us-east_ec2.public_ip]
 }
 
-resource aws_route53_record latency_demo3 {
+resource "aws_route53_record" "latency_demo3" {
   zone_id = data.aws_route53_zone.demo.zone_id
   name    = "latency.${var.domain_name}"
   type    = "A"

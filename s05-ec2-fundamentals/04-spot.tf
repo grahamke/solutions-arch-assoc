@@ -1,20 +1,20 @@
-resource aws_instance spot_instance {
-  instance_type        = "t2.micro"
-  ami                  = var.amazon_linux_2023_ami_id
-  key_name             = aws_key_pair.ec2_key.key_name
+resource "aws_instance" "spot_instance" {
+  instance_type = "t2.micro"
+  ami           = var.amazon_linux_2023_ami_id
+  key_name      = aws_key_pair.ec2_key.key_name
 
   instance_market_options {
     market_type = "spot"
     spot_options {
       instance_interruption_behavior = "stop"
-      max_price = "0.005" # Try higher and lower prices
-      spot_instance_type = "persistent"
+      max_price                      = "0.005" # Try higher and lower prices
+      spot_instance_type             = "persistent"
     }
   }
 
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.launch_sg.id]
-  iam_instance_profile = aws_iam_instance_profile.ec2_hands_on_profile.name
+  vpc_security_group_ids      = [aws_security_group.launch_sg.id]
+  iam_instance_profile        = aws_iam_instance_profile.ec2_hands_on_profile.name
 
   user_data = <<-EOF
     #!/bin/bash
