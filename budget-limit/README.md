@@ -26,13 +26,23 @@ All notifications are sent to the email address specified in the `budget_email_a
 
 ## Required Variables
 
-| Variable Name          | Description                                   | Default                       |
-|------------------------|-----------------------------------------------|-------------------------------|
-| `region`               | AWS region to deploy the budget               | -                             |
-| `profile`              | AWS CLI profile to use                        | -                             |
-| `budget_limit_amount`  | Budget amount in USD                          | "10.0"                        |
-| `budget_email_address` | Email address to receive budget notifications | -                             |
-| `common_tags`          | Map of tags to apply to resources             | `{ ManagedBy = "terraform" }` |
+| Variable Name           | Description                                   | Default                       |
+|-------------------------|-----------------------------------------------|-------------------------------|
+| `region`                | AWS region to deploy the budget               | -                             |
+| `profile`               | AWS CLI profile to use                        | -                             |
+| `budget_limit_amount`   | Budget amount in USD                          | "10.0"                        |
+| `budget_limit_unit`     | Unit of measurement for the budget            | "USD"                         |
+| `budget_email_address`  | Email address to receive budget notifications | -                             |
+| `common_tags`           | Map of tags to apply to resources             | `{ ManagedBy = "terraform" }` |
+
+### Example `terraform.tfvars`
+
+   ```hcl
+   region               = "us-east-1"  # Your preferred region
+   profile              = "default"    # Your AWS CLI profile
+   budget_limit_amount  = "10.0"       # Maximum budget in USD
+   budget_email_address = "your.email@example.com"
+   ```
 
 ## Usage
 

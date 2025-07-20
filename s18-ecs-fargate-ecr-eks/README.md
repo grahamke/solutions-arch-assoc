@@ -1,40 +1,27 @@
-# ECS, Fargate, ECR, & EKS
+# IAM (Identity and Access Management)
 
-This directory contains Terraform code for the ECS, Fargate, ECR, & EKS section of the AWS Solutions Architect Associate course.
+This directory contains Terraform code for the IAM section of the AWS Solutions Architect Associate course.
 
 ## Overview
 
-This section demonstrates how to provision and configure AWS container services using Terraform, covering:
+This section demonstrates AWS Identity and Access Management (IAM) using Terraform, covering:
 
-- Amazon ECS cluster with Fargate launch type
-- ECS service with load balancer integration
-- ECS task definitions with container specifications
-- Application Load Balancer with target groups and listeners
-- AWS App Runner service with auto-scaling configuration
-- Security groups and IAM roles for container services
+- IAM users with secure password generation
+- IAM groups and group memberships
+- IAM policies and policy attachments
+- Account password policies
+- Multi-Factor Authentication (MFA) devices
+- IAM roles for AWS services
 
 ## Demonstrated Resources
 
-- ECS cluster with service connect defaults
-- ECS service running on Fargate with 3 desired instances
-- ECS task definition using nginxdemos/hello container
-- Application Load Balancer with HTTP listener
-- Target group for IP-based load balancing
-- App Runner service with public ECR image
-- Auto-scaling configuration for App Runner
-- Security groups for container and load balancer traffic
-- IAM execution role for ECS tasks
-- Service discovery HTTP namespace
-
-## Topics Covered (Theory Only)
-
-The following topics were covered in the course but do not have hands-on labs:
-
-- Amazon EKS (Elastic Kubernetes Service)
-- Amazon ECR (Elastic Container Registry)
-- ECS with EC2 launch type
-- Container insights and monitoring
-- ECS service auto-scaling policies
+- IAM user with auto-generated 20-character password
+- Admin group with AdministratorAccess policy
+- Developers group with AlexaForBusinessDeviceSetup policy
+- Account password policy with strict requirements
+- Virtual MFA device for enhanced security
+- IAM role for EC2 service with IAMReadOnlyAccess policy
+- Direct user policy attachment (IAMReadOnlyAccess)
 
 ## Usage
 
@@ -51,7 +38,10 @@ The following topics were covered in the course but do not have hands-on labs:
    ```
    terraform apply tfplan
    ```
-5. Access the applications via the load balancer DNS name and App Runner URL
+5. Retrieve the generated password:
+   ```
+   terraform output iam_user_password
+   ```
 6. Remember to destroy resources when done:
    ```
    terraform destroy
@@ -59,49 +49,68 @@ The following topics were covered in the course but do not have hands-on labs:
 
 ## Important Notes
 
-- ECS service uses Fargate launch type for serverless containers
-- Load balancer DNS name provides access to the ECS service
-- App Runner service URL provides direct access to the containerized application
-- Security groups allow HTTP traffic on port 80
-- Task definition specifies container resource requirements (512 CPU, 1024 MB memory)
+- User passwords are auto-generated and marked as sensitive outputs
+- Password reset is required on first login
+- Account alias configuration is commented out by default
+- MFA device requires manual setup after creation
+- Admin group provides full AWS access - use carefully
 
 ## Sample terraform.tfvars
 
 ```hcl
-region  = "us-west-2"
+region  = "us-east-1"
 profile = "default"
 common_tags = {
-  Environment = "sandbox"
+  Environment = "Development"
+  Project     = "SAA-C03"
   CostCenter  = "education"
   Owner       = "Your Name"
+  Section     = "IAM"
 }
+iam_user_name = "saac03"
 ```
 
 ## Variables
 
-| Name          | Description                                      | Default |
-|---------------|--------------------------------------------------|---------|
-| `region`      | AWS region to deploy resources                   | -       |
-| `profile`     | AWS CLI profile to use                           | -       |
-| `common_tags` | Common tags applied to all resources             | -       |
+| Name            | Description                                      | Default         |
+|-----------------|--------------------------------------------------|-----------------|
+| `region`        | AWS region to deploy resources                   | -               |
+| `profile`       | AWS CLI profile to use                           | -               |
+| `common_tags`   | Common tags applied to all resources             | `{ManagedBy = "terraform"}` |
+| `iam_user_name` | Name for the IAM user                            | -               |
 
 ## Outputs
 
-| Output Name              | Description                           | Purpose                                    |
-|--------------------------|---------------------------------------|--------------------------------------------|
-| `load_balancer_dns`      | Application Load Balancer DNS name    | Access point for ECS service              |
-| `app_runner_service_url` | App Runner service URL                | Direct access to App Runner application   |
+| Output Name         | Description                           | Sensitive |
+|---------------------|---------------------------------------|-----------|
+| `iam_user_password` | Auto-generated password for IAM user | Yes       |
 
 ## Resources Created
 
-- `aws_ecs_cluster.demo` - ECS cluster
-- `aws_ecs_service.demo` - ECS service with Fargate launch type
-- `aws_ecs_task_definition.demo` - Task definition for nginx container
-- `aws_lb.ecs_lb` - Application Load Balancer
-- `aws_lb_target_group.ecs_lb_target_group` - Target group for load balancer
-- `aws_lb_listener.ecs_lb_listener` - HTTP listener for load balancer
-- `aws_apprunner_service.demo` - App Runner service
-- `aws_apprunner_auto_scaling_configuration_version.demo_asc` - Auto-scaling config
-- `aws_security_group.demo` - Security group for container traffic
-- `aws_iam_role.ecsTaskExecutionRole` - IAM role for ECS task execution
-- `aws_service_discovery_http_namespace.demo` - Service discovery namespace
+- `aws_iam_user.iam_user` - IAM user
+- `aws_iam_user_login_profile.login_profile` - User login profile with password
+- `aws_iam_group.admin_group` - Admin group
+- `aws_iam_group.developers` - Developers group
+- `aws_iam_group_membership.admin_group_membership` - Admin group membership
+- `aws_iam_group_membership.developers` - Developers group membership
+- `aws_iam_group_policy_attachment.admin_policy_attachment` - Admin policy attachment
+- `aws_iam_group_policy_attachment.alexa_for_business_policy` - Alexa policy attachment
+- `aws_iam_user_policy_attachment.iam_read_only_policy` - Direct user policy attachment
+- `aws_iam_account_password_policy.strict` - Account password policy
+- `aws_iam_virtual_mfa_device.mfa` - Virtual MFA device
+- `aws_iam_role.demo_role_for_ec2` - IAM role for EC2
+- `aws_iam_role_policy_attachment.demo_role_iam_read_only` - Role policy attachment
+
+## Password Policy Configuration
+
+The account password policy enforces:
+- Minimum 8 characters
+- Requires lowercase, uppercase, numbers, and symbols
+- Allows users to change their own passwords
+- Prevents password reuse (1 previous password)
+
+## MFA Setup Instructions
+  
+1. After applying Terraform, manually set up the MFA device named `device-for-{iam_user_name}`
+2. Uncomment the import block in `04-mfa.tf` to manage the device with Terraform
+3. Run `terraform import` to bring the manually created device under Terraform management

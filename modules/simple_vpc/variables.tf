@@ -1,5 +1,5 @@
 variable "region" {
-  description = "AWS region"
+  description = "Region where this resource will be managed."
   default     = null
 }
 

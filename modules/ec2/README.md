@@ -40,23 +40,24 @@ module "web_server" {
 
 ## Inputs
 
-| Name                    | Description                                | Type           | Default     | Required |
-|-------------------------|--------------------------------------------|----------------|-------------|:--------:|
-| `ami`                   | AMI ID for the instance                    | `string`       | -           | yes      |
-| `instance_type`         | EC2 instance type                          | `string`       | `"t2.micro"`| no       |
-| `key_name`              | SSH key pair name                          | `string`       | `null`      | no       |
-| `public_ip`             | Whether to assign a public IP              | `bool`         | `true`      | no       |
-| `region`                | AWS region                                 | `string`       | `null`      | no       |
-| `user_data`             | User data script                           | `string`       | `null`      | no       |
-| `tags`                  | Resource tags                              | `map(string)`  | `null`      | no       |
-| `subnet_id`             | Subnet ID for the instance                 | `string`       | `null`      | no       |
-| `vpc_security_group_ids`| List of security group IDs                 | `list(string)` | `null`      | no       |
+| Name                     | Description                   | Type           | Default      | Required |
+|--------------------------|-------------------------------|----------------|--------------|:--------:|
+| `ami`                    | AMI ID for the instance       | `string`       | -            |   yes    |
+| `instance_type`          | EC2 instance type             | `string`       | `"t2.micro"` |    no    |
+| `key_name`               | SSH key pair name             | `string`       | `null`       |    no    |
+| `public_ip`              | Whether to assign a public IP | `bool`         | `true`       |    no    |
+| `region`                 | AWS region                    | `string`       | `null`       |    no    |
+| `user_data`              | User data script              | `string`       | `null`       |    no    |
+| `tags`                   | Resource tags                 | `map(string)`  | `null`       |    no    |
+| `subnet_id`              | Subnet ID for the instance    | `string`       | `null`       |    no    |
+| `vpc_security_group_ids` | List of security group IDs    | `list(string)` | `null`       |    no    |
 
 ## Outputs
 
 | Name          | Description                           |
 |---------------|---------------------------------------|
 | `public_ip`   | Public IP address of the EC2 instance |
+| `public_dns`  | Public DNS name of the EC2 instance   |
 | `instance_id` | ID of the EC2 instance                |
 
 ## Security Considerations

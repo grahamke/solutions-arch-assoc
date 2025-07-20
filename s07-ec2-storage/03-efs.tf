@@ -79,7 +79,7 @@ resource "aws_vpc_security_group_egress_rule" "efs_out" {
 
 resource "aws_instance" "instance_a" {
   instance_type     = "t2.micro" # Set the instance type to a t2.micro instance
-  ami               = var.amazon_linux_2023_ami_id
+  ami               = data.aws_ssm_parameter.al2023_ami.insecure_value
   key_name          = module.ec2_key_pair.key_name
   availability_zone = "${var.region}a"
   subnet_id         = local.az_a_subnet_id
@@ -115,7 +115,7 @@ output "instance_a_public_ip" {
 
 resource "aws_instance" "instance_b" {
   instance_type     = "t2.micro"
-  ami               = var.amazon_linux_2023_ami_id
+  ami               = data.aws_ssm_parameter.al2023_ami.insecure_value
   key_name          = module.ec2_key_pair.key_name
   availability_zone = "${var.region}b"
   subnet_id         = local.az_b_subnet_id

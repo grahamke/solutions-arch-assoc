@@ -27,7 +27,7 @@ resource "aws_autoscaling_group" "demo" {
 resource "aws_launch_template" "demo" {
   name                   = "MyDemoTemplate"
   description            = "Template"
-  image_id               = var.amazon_linux_2023_ami_id
+  image_id               = data.aws_ssm_parameter.al2023_ami.insecure_value
   instance_type          = "t2.micro"
   key_name               = module.ec2_key_pair.key_name
   vpc_security_group_ids = [module.launch_sg.sg_id]

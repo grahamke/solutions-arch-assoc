@@ -14,7 +14,7 @@ resource "aws_default_subnet" "default_subnet_a" {
 
 resource "aws_instance" "default_vpc_instance" {
   instance_type               = "t2.micro"
-  ami                         = var.amazon_linux_2023_ami_id
+  ami                         = data.aws_ssm_parameter.al2023_ami.insecure_value
   subnet_id                   = aws_default_subnet.default_subnet_a.id
   associate_public_ip_address = true
   key_name                    = aws_key_pair.bastion_ec2_key.key_name
@@ -50,7 +50,7 @@ resource "aws_vpc_security_group_ingress_rule" "default_vpc_instance_allow_ssh" 
   from_port   = 22
   to_port     = 22
   ip_protocol = "tcp"
-  cidr_ipv4   = var.home_ip_address
+  cidr_ipv4   = "${chomp(data.http.my_ip.response_body)}/32"
 }
 
 resource "aws_vpc_security_group_egress_rule" "default_vpc_instance_allow_all" {

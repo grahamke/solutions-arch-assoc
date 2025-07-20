@@ -1,4 +1,4 @@
-# This is a similar budget created in the budget-limit stack
+# This is a similar budget created in the budget-limit stack. Use that for the entire course.
 resource "aws_budgets_budget" "ten_bucks" {
   name         = "My Monthly Cost Budget (${var.budget_limit_amount})"
   budget_type  = "COST"

@@ -68,9 +68,24 @@ To test the auto scaling policy:
 |----------------------------|------------------------------------------|-------------------------------|
 | `region`                   | AWS region to deploy resources           | -                             |
 | `profile`                  | AWS CLI profile to use                   | -                             |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023             | -                             |
 | `common_tags`              | Map of common tags to apply to resources | `{ ManagedBy = "terraform" }` |
 | `alb_instances`            | The number of instances in the ALB       | 2                             |
+
+
+## Sample terraform.tfvars
+
+```hcl
+region  = "us-west-2"
+profile = "default"
+common_tags = {
+  Environment = "Development"
+  Project     = "SAA-C03"
+  CostCenter  = "education"
+  Owner       = "Your Name"
+  Section     = "High Availability and Scalability: ELB and ASG Hands On"
+}
+alb_instances = 2
+```
 
 ## Outputs
 

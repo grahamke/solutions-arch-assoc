@@ -19,7 +19,7 @@ resource "local_file" "bastion_key_pem" {
 
 resource "aws_instance" "bastion_host" {
   instance_type               = "t2.micro"
-  ami                         = var.amazon_linux_2023_ami_id
+  ami                         = data.aws_ssm_parameter.al2023_ami.insecure_value
   subnet_id                   = aws_subnet.public_a.id
   associate_public_ip_address = true
   key_name                    = aws_key_pair.bastion_ec2_key.key_name
@@ -50,6 +50,10 @@ resource "aws_instance" "bastion_host" {
   ipv6_address_count = 1
 }
 
+data "aws_ssm_parameter" "al2023_ami" {
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+}
+
 output "bastion_host_public_ip" {
   value = aws_instance.bastion_host.public_ip
 }
@@ -71,10 +75,14 @@ resource "aws_security_group" "bastion_sg" {
 resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   security_group_id = aws_security_group.bastion_sg.id
 
-  cidr_ipv4   = var.home_ip_address
+  cidr_ipv4   = "${chomp(data.http.my_ip.response_body)}/32"
   ip_protocol = "tcp"
   from_port   = 22
   to_port     = 22
+}
+
+data "http" "my_ip" {
+  url = "https://checkip.amazonaws.com/"
 }
 
 # add for IPv6
@@ -127,7 +135,7 @@ resource "local_file" "private_key_pem" {
 
 resource "aws_instance" "private_host" {
   instance_type = "t2.micro"
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value
   subnet_id     = aws_subnet.private_a.id
   key_name      = aws_key_pair.private_ec2_key.key_name
 

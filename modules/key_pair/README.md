@@ -32,15 +32,18 @@ module "ec2_key_pair" {
 | `filename`        | Filename to save the key         | `string`      | `null`   |    no    |
 | `file_permission` | File permission for the key file | `string`      | `"0400"` |    no    |
 | `tags`            | Tags for the key pair            | `map(string)` | `{}`     |    no    |
+| `region`          | Region where resource is managed | `string`      | `null`   |    no    |
 
 ## Outputs
 
 | Name                 | Description                           |
 |----------------------|---------------------------------------|
-| `key_name`           | Name of the key pair                  |
+| `key_name`           | The key pair name                     |
 | `key_pair_id`        | ID of the key pair                    |
+| `key_id`             | The key pair name                     |
 | `private_key_pem`    | Private key in PEM format (sensitive) |
 | `public_key_openssh` | Public key in OpenSSH format          |
+| `identity_filename`  | Path to the saved private key file    |
 
 ## Security Considerations
 

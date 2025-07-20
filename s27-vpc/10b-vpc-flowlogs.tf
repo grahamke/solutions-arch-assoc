@@ -70,7 +70,7 @@ resource "aws_athena_named_query" "flow_logs_table" {
     )
     ROW FORMAT DELIMITED
     FIELDS TERMINATED BY ' '
-    LOCATION 's3://${aws_s3_bucket.flow_logs_bucket.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/vpcflowlogs/${data.aws_region.current.name}/'
+    LOCATION 's3://${aws_s3_bucket.flow_logs_bucket.bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/vpcflowlogs/${data.aws_region.current.region}/'
     TBLPROPERTIES
     (
       'skip.header.line.count'='1'

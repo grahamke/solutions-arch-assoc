@@ -1,5 +1,5 @@
 resource "aws_instance" "hibernate" {
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value
   instance_type = "t2.micro"
   key_name      = module.ec2_key_pair.key_name
 

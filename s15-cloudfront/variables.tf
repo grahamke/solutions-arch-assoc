@@ -1,13 +1,16 @@
 variable "region" {
-  description = "The AWS region to deploy to (e.g. us-east-1)"
+  type        = string
+  description = "AWS Region where the provider will operate (e.g. us-east-1)"
 }
 
 variable "profile" {
-  description = "The AWS profile to use"
+  type        = string
+  description = "AWS profile name as set in the shared configuration and credentials files."
 }
 
 variable "common_tags" {
-  type = map(string)
+  type        = map(string)
+  description = "Configuration block with resource tag settings to apply across all resources handled by this provider."
   default = {
     ManagedBy = "terraform"
   }
@@ -15,12 +18,4 @@ variable "common_tags" {
 
 variable "bucket_name" {
   description = "The name of the S3 bucket to create to host website"
-}
-
-variable "us_east_1_ami" {
-  description = "The AMI ID to use for the EC2 instance in us-east-1"
-}
-
-variable "ap_south_1_ami" {
-  description = "The AMI ID to use for the EC2 instance in ap-south-1"
 }

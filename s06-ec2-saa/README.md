@@ -52,7 +52,7 @@ This section builds on the EC2 Fundamentals and demonstrates advanced EC2 featur
   ```
   terraform destroy
   ```
-- The AMI ID is specified in terraform variables. Specify your own `terraform.tfvars`.
+- The latest Amazon Linux AMI ID is looked up in SSM. Specify your own `terraform.tfvars`.
 - Some placement group strategies require specific instance types (not t2.micro)
 
 ## Variables
@@ -61,5 +61,27 @@ This section builds on the EC2 Fundamentals and demonstrates advanced EC2 featur
 |----------------------------|-----------------------------------|------------------|
 | `region`                   | AWS region to deploy to           | -                |
 | `profile`                  | AWS CLI profile to use            | -                |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023      | -                |
 | `common_tags`              | Map of tags to apply to resources | Various defaults |
+
+
+## Sample terraform.tfvars
+
+```hcl
+region  = "us-west-2"
+profile = "default"
+common_tags = {
+  Environment = "Development"
+  Project     = "SAA-C03"
+  CostCenter  = "education"
+  Owner       = "Your Name"
+  Section     = "EC2 Solutions Architect Associate Level"
+}
+```
+
+## Outputs
+
+| Output Name           | Description                                 |
+|-----------------------|---------------------------------------------|
+| `instance_private_ip` | Private IP address of the main EC2 instance |
+| `instance_public_ip`  | Public IP address of the main EC2 instance  |
+| `eip_public_ip`       | Elastic IP address attached to the instance |

@@ -17,7 +17,7 @@ This structure was chosen because:
 
 1. **Resource Provisioning Time**: Each database service takes several minutes to provision and destroy
 2. **Independent Testing**: Allows working with one service at a time without affecting others
-4. **Clearer Organization**: Separates configurations for different database technologies
+3. **Clearer Organization**: Separates configurations for different database technologies
 
 ## Services Covered
 

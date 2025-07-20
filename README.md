@@ -4,13 +4,15 @@ This repository contains Terraform code created while following along with the h
 
 Additional experimentation code may be added.
 
-## 📚 Course Info
+## Course Info
 
 - **Instructor:** Stéphane Maarek
 - **Platform:** Udemy
 - **Course:** [AWS Certified Solutions Architect – Associate SAA-C03](https://www.udemy.com/course/aws-certified-solutions-architect-associate-saa-c03/)
 
-## 🚀 Purpose
+## Purpose
+
+⚠️ **This repository is a work in progress** - New sections and resources are added as I progress through the course.
 
 The goal of this repository is to:
 
@@ -18,11 +20,15 @@ The goal of this repository is to:
 - Deploy and manage AWS resources in a repeatable way
 - Practice Infrastructure as Code (IaC) using Terraform
 
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 .
 ├── README.md
+├── modules/
+│   ├── ec2/
+│   ├── key_pair/
+│   └── ...
 ├── budget-limit/
 │   ├── budget.tf
 │   ├── variables.tf
@@ -40,7 +46,7 @@ The goal of this repository is to:
 
 Each subdirectory represents a hands-on lab or section from the course.
 
-## ⚠️ Important: Isolated Terraform Stacks
+## Important: Isolated Terraform Stacks
 
 Each directory in this repository is designed to be an **isolated Terraform stack** that should be managed independently:
 
@@ -51,7 +57,7 @@ Each directory in this repository is designed to be an **isolated Terraform stac
 
 This isolation ensures that you can work through the course sections independently without affecting other resources.
 
-## 🔍 "Hidden" Resources Made Explicit
+## "Hidden" Resources Made Explicit
 
 When creating resources through the AWS Console, AWS often creates additional supporting resources automatically for convenience. These "hidden" resources are not always evident to users but are necessary for the primary resources to function correctly.
 
@@ -69,7 +75,7 @@ In this repository, these "hidden" resources are explicitly defined in the Terra
 
 This explicit approach helps develop a deeper understanding of AWS architecture while ensuring no unexpected resources are created.
 
-## 💰 Cost Management with Terraform
+## Cost Management with Terraform
 
 Using Terraform for these exercises provides significant advantages for cost control:
 
@@ -116,17 +122,17 @@ The budget configuration will:
 This helps ensure you don't accidentally incur unexpected AWS charges while working through the course exercises.
 
 
-## 🛠️ Requirements
+## Requirements
 
 - [Terraform](https://developer.hashicorp.com/terraform/downloads)
 - [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
 - An AWS account and IAM credentials (preferably configured via `~/.aws/credentials`)
 
-## 🔒 Note
+## Note
 
 This project is for personal learning purposes only. No sensitive information (such as AWS credentials) is stored in this repository.
 
-## 📌 Disclaimer
+## Disclaimer
 
 This repository is not affiliated with Stéphane Maarek or Udemy. It is a personal companion project to reinforce learning objectives from the course.
 

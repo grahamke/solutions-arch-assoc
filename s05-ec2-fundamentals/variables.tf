@@ -1,16 +1,24 @@
 variable "region" {
-  description = "The AWS region to deploy to (e.g. us-east-1)"
+  type        = string
+  description = "AWS Region where the provider will operate (e.g. us-east-1)"
 }
 
 variable "profile" {
-  description = "The AWS profile to use"
+  type        = string
+  description = "AWS profile name as set in the shared configuration and credentials files."
 }
 
 variable "common_tags" {
-  type = map(string)
+  type        = map(string)
+  description = "Configuration block with resource tag settings to apply across all resources handled by this provider."
   default = {
     ManagedBy = "terraform"
   }
+}
+
+variable "ssh_cidr_block" {
+  description = "The source IPv4 CIDR range for SSH access."
+  default     = "0.0.0.0/0"
 }
 
 variable "budget_limit_amount" {
@@ -20,8 +28,4 @@ variable "budget_limit_amount" {
 
 variable "budget_email_address" {
   description = "The email address to send the budget notifications to"
-}
-
-variable "amazon_linux_2023_ami_id" {
-  description = "The AMI ID to use for the EC2 instances"
 }

@@ -2,19 +2,7 @@
 
 This directory contains Terraform configurations demonstrating various Amazon S3 features and concepts covered in the AWS Solutions Architect Associate course.
 
-## 📁 Files Overview
-
-- **[01-s3.tf](01-s3.tf)** - Basic S3 bucket creation and object uploads
-- **[02-bucket-policy.tf](02-bucket-policy.tf)** - S3 bucket policies for public access
-- **[03-website.tf](03-website.tf)** - Static website hosting with S3
-- **[04-versioning.tf](04-versioning.tf)** - S3 object versioning demonstration
-- **[05-replication.tf](05-replication.tf)** - Cross-region replication setup
-- **[06-storage-classes.tf](06-storage-classes.tf)** - Storage classes and lifecycle policies
-- **[provider.tf](provider.tf)** - AWS provider configuration
-- **[variables.tf](variables.tf)** - Variable definitions
-- **[terraform.tfvars](terraform.tfvars)** - Variable values
-
-## 🎯 Learning Objectives
+## Learning Objectives
 
 This configuration demonstrates:
 
@@ -26,7 +14,7 @@ This configuration demonstrates:
 - **Storage Classes**: Cost optimization through storage tiers
 - **Lifecycle Policies**: Automated object transitions
 
-## 🚀 Usage
+## Usage
 
 1. **Initialize Terraform**:
    ```bash
@@ -43,21 +31,21 @@ This configuration demonstrates:
    terraform apply
    ```
 
-4. **Clean up resources**:
+4. **Cleanup resources**:
    
-   ⚠️ **Important**: Before running `terraform destroy`, you must empty the replica bucket as it contains replicated objects that Terraform cannot automatically delete.
+   **Important**: Before running `terraform destroy`, you must empty the replica bucket as it contains replicated objects that Terraform cannot automatically delete.
    
    ```bash
    # Empty the replica bucket first
-   aws s3 rm s3://your-replica-bucket-name --recursive
+   aws s3api delete-objects --bucket bucket-name --delete "$(aws s3api list-object-versions --bucket bucket-name --query '{Objects: Versions[].{Key:Key,VersionId:VersionId}}')" && aws s3api delete-objects --bucket bucket-name --delete "$(aws s3api list-object-versions --bucket bucket-name --query '{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')"
    
    # Then destroy the infrastructure
    terraform destroy
    ```
    
-   Replace `your-replica-bucket-name` with the actual name from your `bucket_destination` variable.
+   Replace `bucket-name` with the value from your `bucket_destination` variable.
 
-## 📋 Resources Created
+## Resources Created
 
 - **S3 Buckets**: Multiple buckets for different demonstrations
 - **S3 Objects**: Sample files (coffee.jpg, beach.jpg, HTML files)
@@ -66,10 +54,10 @@ This configuration demonstrates:
 - **Lifecycle Configuration**: Automated storage class transitions
 - **Website Configuration**: Static website hosting setup
 
-## 🔧 Configuration Details
+## Configuration Details
 
 ### Bucket Names
-All bucket names are configured via variables in `terraform.tfvars`:
+All bucket names are configured via variables in `terraform.tfvars` (sample below):
 - Basic demo bucket
 - Bucket policy demo
 - Website hosting bucket
@@ -90,21 +78,50 @@ All bucket names are configured via variables in `terraform.tfvars`:
 
 ## Variables
 
-| Name                     | Description                                           | Default |
-|--------------------------|-------------------------------------------------------|---------|
-| `region`                 | AWS region to deploy resources                        | -       |
-| `profile`                | AWS CLI profile to use                               | -       |
-| `common_tags`            | Common tags to apply to all resources                | -       |
-| `bucket_basic`              | Name of the basic S3 bucket                          | -       |
-| `bucket_policy`              | Name of the bucket policy demo bucket                | -       |
-| `bucket_website`         | Name of the static website hosting bucket            | -       |
-| `bucket_versioning`      | Name of the versioning demo bucket                   | -       |
-| `bucket_origin`          | Name of the replication origin bucket                | -       |
-| `bucket_destination`     | Name of the replication destination bucket           | -       |
-| `replication_region`     | AWS region for replication destination               | -       |
-| `bucket_storage_classes` | Name of the storage classes demo bucket              | -       |
+| Name                     | Description                                | Default |
+|--------------------------|--------------------------------------------|---------|
+| `region`                 | AWS region to deploy resources             | -       |
+| `profile`                | AWS CLI profile to use                     | -       |
+| `common_tags`            | Common tags to apply to all resources      | -       |
+| `bucket_basic`           | Name of the basic S3 bucket                | -       |
+| `bucket_policy`          | Name of the bucket policy demo bucket      | -       |
+| `bucket_website`         | Name of the static website hosting bucket  | -       |
+| `bucket_versioning`      | Name of the versioning demo bucket         | -       |
+| `bucket_origin`          | Name of the replication origin bucket      | -       |
+| `bucket_destination`     | Name of the replication destination bucket | -       |
+| `replication_region`     | AWS region for replication destination     | -       |
+| `bucket_storage_classes` | Name of the storage classes demo bucket    | -       |
 
-## ⚠️ Important Notes
+## Sample terraform.tfvars
+
+```hcl
+region  = "us-west-2"
+profile = "default"
+common_tags = {
+  Environment = "Development"
+  Project     = "SAA-C03"
+  CostCenter  = "education"
+  Owner       = "Your Name"
+  Section     = "S3 Intro"
+}
+bucket_basic           = "my-saac03-basic"
+bucket_policy          = "my-saac03-policy"
+bucket_website         = "my-saac03-website"
+bucket_versioning      = "my-saac03-versioning"
+bucket_origin          = "my-saac03-origin"
+bucket_destination     = "my-saac03-destination"
+bucket_storage_classes = "my-sasc03-storage-classes"
+
+replication_region = "us-east-1"
+```
+
+## Outputs
+
+| Name               | Description             |
+|--------------------|-------------------------|
+| `website_endpoint` | S3 Website endpoint URL |
+
+## Important Notes
 
 - **Cost Awareness**: This creates multiple S3 buckets and objects - remember to destroy when done
 - **Public Access**: Some buckets are configured for public access for demonstration purposes
@@ -112,7 +129,7 @@ All bucket names are configured via variables in `terraform.tfvars`:
 - **Unique Naming**: S3 bucket names must be globally unique - update variables accordingly
 - **Replica Bucket Cleanup**: The replica bucket must be manually emptied before `terraform destroy` can complete successfully
 
-## 🔗 Related AWS Services
+## Related AWS Services
 
 - **Amazon S3**: Object storage service
 - **IAM**: Identity and Access Management for replication roles

@@ -1,6 +1,6 @@
 resource "aws_instance" "base_instance" {
   instance_type = "t2.micro" # Set the instance type to a t2.micro instance
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value
   key_name      = module.ec2_key_pair.key_name
 
   associate_public_ip_address = true

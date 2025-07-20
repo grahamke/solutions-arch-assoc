@@ -80,7 +80,7 @@ module "us_east_1_ec2" {
   source = "../modules/ec2"
 
   region        = "us-east-1"
-  ami           = var.us_east_1_ami
+  ami           = data.aws_ssm_parameter.us_east_1_ami.insecure_value
   instance_type = "t2.micro"
 
   public_ip              = true
@@ -97,6 +97,11 @@ module "us_east_1_ec2" {
     systemctl enable httpd
     echo "<h1>Hello World from $(hostname -f) in us-east-1</h1>" > /var/www/html/index.html
 EOF
+}
+
+data "aws_ssm_parameter" "us_east_1_ami" {
+  region = "us-east-1"
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 output "us_east_1_ec2_public_ip" {
@@ -130,7 +135,7 @@ module "ap_south_1_ec2" {
   source = "../modules/ec2"
 
   region        = "ap-south-1"
-  ami           = var.ap_south_1_ami
+  ami           = data.aws_ssm_parameter.ap_south_1_ami.insecure_value
   instance_type = "t2.micro"
 
   public_ip              = true
@@ -147,6 +152,11 @@ module "ap_south_1_ec2" {
     systemctl enable httpd
     echo "<h1>Hello World from $(hostname -f) in ap-south-1</h1>" > /var/www/html/index.html
 EOF
+}
+
+data "aws_ssm_parameter" "ap_south_1_ami" {
+  region = "ap-south-1"
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 output "ap_south_1_ec2_public_ip" {

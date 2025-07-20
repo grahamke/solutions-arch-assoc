@@ -29,18 +29,39 @@ The configuration demonstrates how to set up:
 - Default option group
 - Configurable settings
 
+Run the following to get your system's public IP address:
+   ```
+   curl checkip.amazonaws.com
+   ```
+
 ## Variables
 
-| Name | Description | Default |
-|------|-------------|---------|
-| `region` | AWS region to deploy resources | - |
-| `profile` | AWS CLI profile to use | - |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023 | - |
-| `mysql_version` | MySQL version to use | `"8.4"` |
-| `mysql_username` | MySQL master username | `"admin"` |
-| `mysql_password` | MySQL master password | - |
-| `personal_ip_address` | Your IP address for security group access | - |
-| `common_tags` | Map of common tags to apply to resources | `{ ManagedBy = "terraform" }` |
+| Name                       | Description                               | Default                       |
+|----------------------------|-------------------------------------------|-------------------------------|
+| `region`                   | AWS region to deploy resources            | -                             |
+| `profile`                  | AWS CLI profile to use                    | -                             |
+| `common_tags`              | Map of common tags to apply to resources  | `{ ManagedBy = "terraform" }` |
+| `mysql_version`            | MySQL version to use                      | `"8.4"`                       |
+| `mysql_username`           | MySQL master username                     | `"admin"`                     |
+| `mysql_password`           | MySQL master password                     | -                             |
+| `personal_ip_address`      | Your IP address for security group access | -                             |
+
+## Sample terraform.tfvars
+
+```hcl
+region  = "us-west-2"
+profile = "default"
+common_tags = {
+  Environment = "Development"
+  Project     = "SAA-C03"
+  CostCenter  = "education"
+  Owner       = "Your Name"
+   Section     = "RDS + Aurora + ElastiCache Hands On"
+}
+mysql_version  = "8.4"
+mysql_password = "password"
+personal_ip_address = "33.44.55.66"
+```
 
 ## Outputs
 

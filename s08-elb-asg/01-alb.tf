@@ -1,6 +1,6 @@
 resource "aws_instance" "compute" {
   count                       = var.alb_instances
-  ami                         = var.amazon_linux_2023_ami_id
+  ami                         = data.aws_ssm_parameter.al2023_ami.insecure_value
   instance_type               = "t2.micro"
   associate_public_ip_address = true
 
@@ -24,6 +24,10 @@ EOF
   tags = {
     Name = "compute-${count.index}" # Instead of My First Instance and My Second Instance, it'll be compute-0 and compute-1
   }
+}
+
+data "aws_ssm_parameter" "al2023_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 output "compute_ips" {

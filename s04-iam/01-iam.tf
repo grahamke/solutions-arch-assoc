@@ -1,5 +1,3 @@
-# Create an IAM user with admin access via group membership
-
 resource "aws_iam_user" "iam_user" {
   name = var.iam_user_name
 }

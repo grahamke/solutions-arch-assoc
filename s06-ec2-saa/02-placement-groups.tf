@@ -14,7 +14,7 @@ resource "aws_placement_group" "critical" {
 }
 
 resource "aws_instance" "critical_server" {
-  ami             = var.amazon_linux_2023_ami_id
+  ami             = data.aws_ssm_parameter.al2023_ami.insecure_value
   instance_type   = "t2.micro"
   placement_group = aws_placement_group.critical.id
   tags = {

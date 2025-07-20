@@ -18,9 +18,14 @@ module "web_security_group" {
   region         = "us-east-1"
   name           = "web-server-sg"
   vpc_id         = module.vpc.vpc_id
-  ssh_cidr_block = "192.168.1.0/24"  # Restrict SSH access
+  ssh_cidr_block = "0.0.0.0/0"  # Restrict SSH access
 }
 ```
+
+Run the following to get your system's public IP address:
+   ```
+   curl checkip.amazonaws.com
+   ```
 
 ## Inputs
 

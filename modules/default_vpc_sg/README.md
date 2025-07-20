@@ -1,6 +1,6 @@
 # Default VPC Security Group Module
 
-This module creates a security group in the default VPC of your provider with simple access rules for EC2 instances.
+This module creates a security group in the default VPC of your provider with simple access rules for EC2 instances. It replicates the create new security group from the AWS Console when launching a new instance.
 
 ## Features
 
@@ -23,9 +23,18 @@ resource "aws_instance" "web" {
 }
 ```
 
+
+Run the following to get your system's public IP address:
+   ```
+   curl checkip.amazonaws.com
+   ```
+
 ## Inputs
 
-This module has no inputs.
+| Name             | Description                     | Type     | Default     | Required |
+|------------------|---------------------------------|----------|-------------|:--------:|
+| `ssh_cidr_block` | CIDR block for SSH access       | `string` | `0.0.0.0/0` | no       |
+
 
 ## Outputs
 

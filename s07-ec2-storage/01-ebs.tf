@@ -1,11 +1,15 @@
 resource "aws_instance" "instance" {
   instance_type     = "t2.micro" # Set the instance type to a t2.micro instance
-  ami               = var.amazon_linux_2023_ami_id
+  ami               = data.aws_ssm_parameter.al2023_ami.insecure_value
   availability_zone = "${var.region}a"
 
   tags = {
     Name = "My First Instance" # obviously not our first instance, but Stephane reused his
   }
+}
+
+data "aws_ssm_parameter" "al2023_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 resource "aws_ebs_volume" "volume" {

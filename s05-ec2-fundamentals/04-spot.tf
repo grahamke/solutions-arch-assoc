@@ -1,6 +1,6 @@
 resource "aws_instance" "spot_instance" {
   instance_type = "t2.micro"
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value
   key_name      = aws_key_pair.ec2_key.key_name
 
   instance_market_options {

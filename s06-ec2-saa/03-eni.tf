@@ -1,6 +1,6 @@
 resource "aws_instance" "some_server" {
   count         = 2
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value
   instance_type = "t2.micro"
 
   tags = {

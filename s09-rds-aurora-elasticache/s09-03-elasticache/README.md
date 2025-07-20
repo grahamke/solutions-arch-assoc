@@ -30,19 +30,18 @@ The configuration demonstrates how to set up:
 
 ## Variables
 
-| Name | Description | Default |
-|------|-------------|---------|
-| `region` | AWS region to deploy resources | - |
-| `profile` | AWS CLI profile to use | - |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023 | - |
+| Name          | Description                              | Default                       |
+|---------------|------------------------------------------|-------------------------------|
+| `region`      | AWS region to deploy resources           | -                             |
+| `profile`     | AWS CLI profile to use                   | -                             |
 | `common_tags` | Map of common tags to apply to resources | `{ ManagedBy = "terraform" }` |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
+| Name                   | Description                                  |
+|------------------------|----------------------------------------------|
 | `elasticache_endpoint` | Endpoint for connecting to the Redis cluster |
-| `elasticache_port` | Port for connecting to the Redis cluster |
+| `elasticache_port`     | Port for connecting to the Redis cluster     |
 
 ## Usage
 

@@ -48,7 +48,7 @@ resource "aws_s3_object" "coffee" {
   bucket = aws_s3_bucket.bucket.id
   key    = "coffee.jpg"
   source = "../resources/coffee.jpg"
-  etag   = filemd5("coffee.jpg")
+  etag   = filemd5("../resources/coffee.jpg")
 
   depends_on = [aws_s3_bucket_notification.demo]
 }

@@ -13,7 +13,7 @@ The configuration demonstrates how to set up and use Amazon Route 53 for DNS man
 ## Components
 
 ### 1. Hosted Zone Reference
-- References an existing hosted zone for the domain
+- References an _existing_ hosted zone for the domain
 - Demonstrates how to work with existing DNS configurations
 
 ### 2. DNS Record Types
@@ -59,15 +59,12 @@ The configuration demonstrates how to set up and use Amazon Route 53 for DNS man
 
 ## Variables
 
-| Name                 | Description                                | Default                       |
-|----------------------|--------------------------------------------|-------------------------------|
-| `region`             | AWS region to deploy resources             | -                             |
-| `profile`            | AWS CLI profile to use                     | -                             |
-| `hosted_zone_id`     | The hosted zone ID to use                  | -                             |
-| `domain_name`        | Domain name to use                         | example-learning.com          |
-| `eu_central_1_ami`   | AMI ID for EC2 instances in EU Central 1   | -                             |
-| `us_east_1_ami`      | AMI ID for EC2 instances in US East 1      | -                             |
-| `ap_southeast_1_ami` | AMI ID for EC2 instances in AP Southeast 1 | -                             |
+| Name                 | Description                          | Default                       |
+|----------------------|--------------------------------------|-------------------------------|
+| `region`             | AWS region to deploy resources       | -                             |
+| `profile`            | AWS CLI profile to use               | -                             |
+| `hosted_zone_id`     | The *existing* hosted zone ID to use | -                             |
+| `domain_name`        | Domain name to use                   | example-learning.com          |
 
 ## Outputs
 

@@ -7,11 +7,13 @@ They make it easier in the later sections. Full implementations are initially fo
 
 | Module Name      | Description                                                          |
 |------------------|----------------------------------------------------------------------|
+| `default_vpc_sg` | Sets up a security group in the default VPC with SSH and HTTP access |
 | `ec2`            | Creates an EC2 instance with configurable settings                   |
 | `key_pair`       | Creates an AWS key pair with local storage of the private key        |
+| `s3-website`     | Creates a simple S3 static website                                   |
 | `sec_grp`        | Creates a security group with SSH and HTTP access rules              |
 | `simple_vpc`     | Creates a VPC with internet gateway and two public subnets           |
-| `default_vpc_sg` | Sets up a security group in the default VPC with SSH and HTTP access |
+
 
 ## Usage
 

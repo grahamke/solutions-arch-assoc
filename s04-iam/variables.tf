@@ -1,13 +1,16 @@
 variable "region" {
-  description = "The AWS region to deploy to (e.g. us-east-1)"
+  type        = string
+  description = "AWS Region where the provider will operate (e.g. us-east-1)"
 }
 
 variable "profile" {
-  description = "The AWS profile to use"
+  type        = string
+  description = "AWS profile name as set in the shared configuration and credentials files."
 }
 
 variable "common_tags" {
-  type = map(string)
+  type        = map(string)
+  description = "Configuration block with resource tag settings to apply across all resources handled by this provider."
   default = {
     ManagedBy = "terraform"
   }
@@ -15,5 +18,5 @@ variable "common_tags" {
 
 variable "iam_user_name" {
   type        = string
-  description = "The name of the IAM user to create"
+  description = "The user's name."
 }

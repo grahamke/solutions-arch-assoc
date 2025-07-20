@@ -1,6 +1,6 @@
 # EC2 Storage Solutions
 
-This directory contains Terraform configurations for AWS EC2 storage solutions covered in the Solutions Architect Associate course.
+This directory contains Terraform configurations for AWS EC2 storage solutions covered in the AWS Solutions Architect Associate course.
 
 ## Components
 
@@ -37,7 +37,7 @@ The configuration creates:
 
 ## Cost Optimization
 
-- Lifecycle policies to transition infrequently accessed data to cheaper storage tiers
+- Lifecycle policies to transition infrequently accessed data to less expensive storage tiers
 - Automatic transition back to standard storage upon access
 
 ## Variables
@@ -46,8 +46,31 @@ The configuration creates:
 |----------------------------|------------------------------------------|---------|
 | `region`                   | AWS region to deploy resources           | -       |
 | `profile`                  | AWS CLI profile to use                   | -       |
-| `amazon_linux_2023_ami_id` | AMI ID for Amazon Linux 2023             | -       |
 | `common_tags`              | Map of common tags to apply to resources | -       |
+
+
+## Sample terraform.tfvars
+
+```hcl
+region  = "us-west-2"
+profile = "default"
+common_tags = {
+  Environment = "Development"
+  Project     = "SAA-C03"
+  CostCenter  = "education"
+  Owner       = "Your Name"
+  Section     = "EC2 Instance Storage Hands On"
+}
+```
+
+## Outputs
+
+| Name                             | Description                                   |
+|----------------------------------|-----------------------------------------------|
+| `base_instance_public_ip`        | Public IP address of the base EC2 instance    |
+| `private_ami_instance_public_ip` | Public IP address of the private AMI instance |
+| `instance_a_public_ip`           | Public IP address of EFS instance A           |
+| `instance_b_public_ip`           | Public IP address of EFS instance B           |
 
 ## Usage
 

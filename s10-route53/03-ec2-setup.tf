@@ -5,7 +5,7 @@ module "eu_central_ec2" {
   source = "../modules/ec2"
 
   region    = "eu-central-1"
-  ami       = var.eu_central_1_ami
+  ami       = data.aws_ssm_parameter.eu_central_ami.insecure_value
   key_name  = module.eu_central_ec2_key_pair.key_name
   public_ip = true
 
@@ -13,6 +13,11 @@ module "eu_central_ec2" {
   subnet_id              = module.eu_central_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
+}
+
+data "aws_ssm_parameter" "eu_central_ami" {
+  region = "eu-central-1"
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 module "eu_central_ec2_key_pair" {
@@ -53,7 +58,7 @@ module "us-east_ec2" {
   source = "../modules/ec2"
 
   region    = "us-east-1"
-  ami       = var.us_east_1_ami
+  ami       = data.aws_ssm_parameter.us_east_1_ami.insecure_value
   key_name  = module.us-east_ec2_key_pair.key_name
   public_ip = true
 
@@ -61,6 +66,11 @@ module "us-east_ec2" {
   subnet_id              = module.us-east_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
+}
+
+data "aws_ssm_parameter" "us_east_1_ami" {
+  region = "us-east-1"
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 module "us-east_ec2_key_pair" {
@@ -101,7 +111,7 @@ module "ap-southeast_ec2" {
   source = "../modules/ec2"
 
   region    = "ap-southeast-1"
-  ami       = var.ap_southeast_1_ami
+  ami       = data.aws_ssm_parameter.ap_southeast_1_ami.insecure_value
   key_name  = module.ap-southeast_ec2_key_pair.key_name
   public_ip = true
 
@@ -109,6 +119,11 @@ module "ap-southeast_ec2" {
   subnet_id              = module.ap-southeast_vpc.public_subnet_ids[0]
 
   user_data = local.user_data_script
+}
+
+data "aws_ssm_parameter" "ap_southeast_1_ami" {
+  region = "ap-southeast-1"
+  name   = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 module "ap-southeast_ec2_key_pair" {

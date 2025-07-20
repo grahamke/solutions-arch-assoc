@@ -1,13 +1,16 @@
 variable "region" {
-  description = "The AWS region to deploy to (e.g. us-east-1)"
+  type        = string
+  description = "AWS Region where the provider will operate (e.g. us-east-1)"
 }
 
 variable "profile" {
-  description = "The AWS profile to use"
+  type        = string
+  description = "AWS profile name as set in the shared configuration and credentials files."
 }
 
 variable "common_tags" {
-  type = map(string)
+  type        = map(string)
+  description = "Configuration block with resource tag settings to apply across all resources handled by this provider."
   default = {
     ManagedBy = "terraform"
   }
@@ -16,14 +19,6 @@ variable "common_tags" {
 variable "vpc_name" {
   description = "The name of the VPC to create"
   default     = "DemoVPC"
-}
-
-variable "amazon_linux_2023_ami_id" {
-  description = "The AMI ID to use for the EC2 instances"
-}
-
-variable "home_ip_address" {
-  description = "Your IP Address. Used for Security Group ingress"
 }
 
 variable "s3_flow_logs_bucket_name" {

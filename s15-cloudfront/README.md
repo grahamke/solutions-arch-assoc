@@ -70,17 +70,15 @@ The following CloudFront topics were covered in the course but do not have hands
 
 | Name                | Description                           | Default |
 |---------------------|---------------------------------------|---------|
-| `us_east_1_ami`     | AMI ID for us-east-1 region          | -       |
-| `ap_south_1_ami`    | AMI ID for ap-south-1 region          | -       |
 | `region`            | Primary AWS region                    | -       |
 | `profile`           | AWS CLI profile to use                | -       |
 
 ## Outputs
 
-| Output Name                    | Description                           | Purpose                                    |
-|--------------------------------|---------------------------------------|-----------------------------------------|
-| `global_accelerator_dns_name`  | Global Accelerator DNS name           | Access point for accelerated traffic    |
-| `us_east_1_ec2_public_ip`      | Public IP of us-east-1 EC2 instance  | Direct access to US East instance      |
-| `us_east_1_ec2_public_dns`     | Public DNS of us-east-1 EC2 instance | DNS-based access to US East instance   |
-| `ap_south_1_ec2_public_ip`     | Public IP of ap-south-1 EC2 instance | Direct access to Asia Pacific instance |
-| `ap_south_1_ec2_public_dns`    | Public DNS of ap-south-1 EC2 instance| DNS-based access to Asia Pacific instance |
+| Output Name                   | Description                           | Purpose                                   |
+|-------------------------------|---------------------------------------|-------------------------------------------|
+| `global_accelerator_dns_name` | Global Accelerator DNS name           | Access point for accelerated traffic      |
+| `us_east_1_ec2_public_ip`     | Public IP of us-east-1 EC2 instance   | Direct access to US East instance         |
+| `us_east_1_ec2_public_dns`    | Public DNS of us-east-1 EC2 instance  | DNS-based access to US East instance      |
+| `ap_south_1_ec2_public_ip`    | Public IP of ap-south-1 EC2 instance  | Direct access to Asia Pacific instance    |
+| `ap_south_1_ec2_public_dns`   | Public DNS of ap-south-1 EC2 instance | DNS-based access to Asia Pacific instance |

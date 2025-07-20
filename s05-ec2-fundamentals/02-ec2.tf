@@ -1,9 +1,6 @@
-###################################################
-# Find the ami for your region. Instructions will be in the section's README
-###################################################
 resource "aws_instance" "first_instance" {
   instance_type = "t2.micro" # Set the instance type to a t2.micro instance
-  ami           = var.amazon_linux_2023_ami_id
+  ami           = data.aws_ssm_parameter.al2023_ami.insecure_value # This is the default Amazon Linux AMI for the provider's region.
   key_name      = aws_key_pair.ec2_key.key_name
 
   associate_public_ip_address = true
@@ -56,8 +53,12 @@ resource "local_file" "private_key_pem" {
   file_permission = "0400"
 }
 
+output "identity_filename" {
+  value = local_file.private_key_pem.filename
+}
+
 ###################################################
-## Replicating the "Default" networking options
+## Replicating the created "Default" networking options
 ###################################################
 resource "aws_security_group" "launch_sg" {
   name = "launch-sg-1"
@@ -69,7 +70,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
   from_port         = 22
   to_port           = 22
   ip_protocol       = "tcp"
-  cidr_ipv4         = "0.0.0.0/0"
+  cidr_ipv4         = var.ssh_cidr_block
 }
 
 # This is like clicking on the allow HTTP
@@ -89,22 +90,20 @@ resource "aws_vpc_security_group_egress_rule" "allow_all" {
   cidr_ipv4         = "0.0.0.0/0"
 }
 
-resource "aws_default_vpc" "default_vpc" {
-  tags = {
-    Name = "Default VPC"
-  }
+data "aws_vpc" "default" {
+  default = true
 }
 
 data "aws_internet_gateway" "default_igw" {
   filter {
     name   = "attachment.vpc-id"
-    values = [aws_default_vpc.default_vpc.id]
+    values = [data.aws_vpc.default.id]
   }
 }
 
 # Needed for routing HTTP and SSH
 resource "aws_default_route_table" "default_route_table" {
-  default_route_table_id = aws_default_vpc.default_vpc.default_route_table_id
+  default_route_table_id = data.aws_vpc.default.main_route_table_id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = data.aws_internet_gateway.default_igw.id
@@ -112,4 +111,8 @@ resource "aws_default_route_table" "default_route_table" {
   tags = {
     Name = "Default Route Table"
   }
+}
+
+data "aws_ssm_parameter" "al2023_ami" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
